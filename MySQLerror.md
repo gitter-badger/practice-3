@@ -14,6 +14,7 @@ Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock'
 Error executing action `start` on resource 'service[mysqld]'
 STDOUT: Another MySQL daemon already running with the same unix socket.
 ```
+
 ### 調査内容
 database.yml に記載のアドレスと、実際のソケットファイルの場所は一致していて  
 実際に mysql.sock もあった。ただ、ファイルサイズが 0 になっていた。Filezilaで  
@@ -124,6 +125,7 @@ database.yml に記載のアドレスと、実際のソケットファイルの�
 	vagrant   3325  0.7  0.1 108296  1868 pts/0    Ss   03:38   0:00 -bash
 	vagrant   3342  2.0  0.1 110224  1172 pts/0    R+   03:38   0:00 ps -aux
 ```  
+
 ･･･特にそんなのなさげ。  
 
 ### 解決策
@@ -149,7 +151,7 @@ $ vagrant reload
 
 仮想マシンにログインし、root権限で前述コマンドを実行。  
 ソケットファイルの名前だけを変えて、mysql.sock に一致するファイルが  
-存在しない状態を作り、削除と同じ状態を作り出す。  
+存在しない状態を作り、擬似的に削除と同じ状態にする。  
 ソケットファイルはMySQLサーバー起動時に自動生成されるため、この方法で  
 再生成させる。  
 
