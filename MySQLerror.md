@@ -9,7 +9,7 @@ MySQL SOCKET ERROR まとめ
 ```error
 Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock'
 ```
-> vagrant provision 時  
+vagrant provision 時  
 ```error
 Error executing action `start` on resource 'service[mysqld]'
 STDOUT: Another MySQL daemon already running with the same unix socket.
