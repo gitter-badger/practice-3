@@ -7,13 +7,16 @@ MySQL SOCKET ERROR まとめ
 
 > board.sunrisedigital.jp 接続時  
 ```error
-SQLSTATE[HY000] [2002] Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (111)#0 /home/source/sites/sdx/models/Zend/Db/Adapter/Pdo/Mysql.php(109): Zend_Db_Adapter_Pdo_Abstract->_connect()
-```
-vagrant provision 時  
+SQLSTATE[HY000] [2002] Can't connect to local MySQL server through socket 
+'/var/lib/mysql/mysql.sock' (111)#0 /home/source/sites/sdx/models/Zend/Db/Adapter/Pdo/Mysql.php(109):
+Zend_Db_Adapter_Pdo_Abstract->_connect()
+```  
+
+> vagrant provision 時  
 ```error
 Error executing action `start` on resource 'service[mysqld]'
 STDOUT: Another MySQL daemon already running with the same unix socket.
-```
+```  
 
 ### 調査内容
 database.yml に記載のアドレスと、実際のソケットファイルの場所は一致していて  
