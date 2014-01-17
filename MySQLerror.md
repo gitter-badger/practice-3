@@ -3,11 +3,11 @@ MySQL SOCKET ERROR まとめ
 
 ### 現象内容
 01/09 に sunrise を pull したときから仮想マシン起動時に  
-以下のエラーが出るようになった。
+以下のエラーが出るようになった。  
 
-> vagrant up 時  
+> board.sunrisedigital.jp 接続時  
 ```error
-Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock'
+SQLSTATE[HY000] [2002] Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (111)#0 /home/source/sites/sdx/models/Zend/Db/Adapter/Pdo/Mysql.php(109): Zend_Db_Adapter_Pdo_Abstract->_connect()
 ```
 vagrant provision 時  
 ```error
