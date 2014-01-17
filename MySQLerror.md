@@ -161,3 +161,13 @@ $ vagrant reload
 mysql サーバー自体が前は起動できない状態だったが、ソケットファイルを  
 リネームしたら無事起動できるようになった。WEBサイトもちゃんと見れるようになった。  
 よかった。。。pull が原因なのかよくわからんけど、とりあえずしばらくpull はやめとこ。  
+
+1/17追記：  
+またソケットエラー出たのでこんどはリネームじゃなくて削除でやってみた。  
+```bash
+[root@localhost ~]# rm /var/lib/mysql/mysql.sock
+rm: remove socket `/var/lib/mysql/mysql.sock'? yes
+[root@localhost ~]# service mysqld start
+Starting mysqld:                                           [  OK  ]
+```  
+これでもOKみたい。
