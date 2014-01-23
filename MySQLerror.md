@@ -131,6 +131,11 @@ database.yml に記載のアドレスと、実際のソケットファイルの�
 
 ･･･特にそんなのなさげ。  
 
+ちなみに正常に動作している際はこういうプロセスを吐いていた。  
+```ps
+mysql     3415  0.2  2.8 443008 28792 pts/0    Sl   00:56   0:00 /usr/libexec/mysqld --basedir=/usr --datadir=/var/lib/mysql
+```  
+
 ### 解決策
 pull 前の状態に戻した上で再起動  
 ```bash
@@ -170,4 +175,15 @@ rm: remove socket `/var/lib/mysql/mysql.sock'? yes
 [root@localhost ~]# service mysqld start
 Starting mysqld:                                           [  OK  ]
 ```  
-これでもOKみたい。
+これでもOKみたい。  
+
+
+#### 余談
+よく見るとプロセスを確認した際にこんな警告が出ている。  
+```Warning: bad syntax, perhaps a bogus '-'? See /usr/share/doc/procps-3.2.8/FAQ```  
+プロセスは確認できているので無視してもいいかもだけどなんか気になる。  
+文法的に"-"はいらないってこと？  
+
+ここが参考になりました。結論としては "-" は付けずに`ps aux`だけでよかったみたい。(実験済)  
+* [ps -auxがエラー！](http://achakodisney.blog49.fc2.com/blog-entry-24.html "ps -auxがエラー！")
+* [LinuxServer　プロセス管理について](http://www.sakc.jp/blog/archives/13597 "LinuxServer　プロセス管理について")
