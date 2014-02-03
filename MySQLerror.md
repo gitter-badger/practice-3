@@ -282,3 +282,5 @@ Version: '5.1.71'  socket: '/var/lib/mysql/mysql.sock'  port: 3306  Source distr
 140130 10:17:00 mysqld_safe mysqld from pid file /var/run/mysqld/mysqld.pid ended
 ```  
 
+ちなみに同サーバー内につくった別ドメイン(DB非使用)にはアクセス可能。  
+MySQL依存っぽい。
