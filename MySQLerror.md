@@ -186,4 +186,99 @@ Starting mysqld:                                           [  OK  ]
 
 ここが参考になりました。結論としては "-" は付けずに`ps aux`だけでよかったみたい。(実験済)  
 * [ps -auxがエラー！](http://achakodisney.blog49.fc2.com/blog-entry-24.html "ps -auxがエラー！")
-* [LinuxServer　プロセス管理について](http://www.sakc.jp/blog/archives/13597 "LinuxServer　プロセス管理について")
+* [LinuxServer　プロセス管理について](http://www.sakc.jp/blog/archives/13597 "LinuxServer　プロセス管理について")  
+
+### 2/3 再発時にログをとってみたのでメモ。
+ログの確認箇所はネットで「このへんを確認するとよさげ？」なものを調べてみただけなので  
+もしかしたら他に見るべきログがあるかもだけど、とりあえず。  
+
+
+mysql.sock の作成日時が先週の金曜(1/31)になってる。  
+今日(2/3)に仮想マシンを起動しているので、今日の日付でないとヘン。  
+```bash
+$ vagrant ssh
+Last login: Fri Jan 31 01:11:07 2014 from 10.0.2.2
+Welcome to your Vagrant-built virtual machine.
+[vagrant@localhost ~]$ ls -al /var/lib/mysql
+total 28692
+drwxr-xr-x   5 mysql mysql     4096 Jan 31 00:59 .
+drwxr-xr-x. 23 root  root      4096 Oct  7 08:22 ..
+drwx------   2 mysql mysql     4096 Nov 28 04:50 board
+-rw-rw----   1 mysql mysql 18874368 Jan 31 09:19 ibdata1
+-rw-rw----   1 mysql mysql  5242880 Jan 31 09:19 ib_logfile0
+-rw-rw----   1 mysql mysql  5242880 Oct  7 08:22 ib_logfile1
+drwx------   2 mysql mysql     4096 Oct  7 08:22 mysql
+srwxrwxrwx   1 mysql mysql        0 Jan 31 00:59 mysql.sock
+drwx------   2 mysql mysql     4096 Oct  7 08:22 test
+```  
+とりあえず直近のログ。50件くらいでいいか。UTC表記なので実時間は+9時間で。  
+日本時間に直したいんだけどやり方がわからん。。。  
+```bash
+[root@localhost ~]# tail -50 /var/log/mysqld.log
+140129  8:17:46 [Note] Event Scheduler: Purging the queue. 0 events
+140129  8:17:46  InnoDB: Starting shutdown...
+140129  8:17:49  InnoDB: Shutdown completed; log sequence number 0 563110
+140129  8:17:49 [Note] /usr/libexec/mysqld: Shutdown complete
+
+140129 08:17:49 mysqld_safe mysqld from pid file /var/run/mysqld/mysqld.pid ended
+140129 08:20:03 mysqld_safe Starting mysqld daemon with databases from /var/lib/mysql
+140129  8:20:04  InnoDB: Initializing buffer pool, size = 8.0M
+140129  8:20:04  InnoDB: Completed initialization of buffer pool
+140129  8:20:04  InnoDB: Started; log sequence number 0 563110
+140129  8:20:04 [Note] Event Scheduler: Loaded 0 events
+140129  8:20:04 [Note] /usr/libexec/mysqld: ready for connections.
+Version: '5.1.71'  socket: '/var/lib/mysql/mysql.sock'  port: 3306  Source distribution
+140129 08:26:31 mysqld_safe Starting mysqld daemon with databases from /var/lib/mysql
+140129  8:26:31  InnoDB: Initializing buffer pool, size = 8.0M
+140129  8:26:31  InnoDB: Completed initialization of buffer pool
+140129  8:26:31  InnoDB: Started; log sequence number 0 563110
+140129  8:26:31 [Note] Event Scheduler: Loaded 0 events
+140129  8:26:31 [Note] /usr/libexec/mysqld: ready for connections.
+Version: '5.1.71'  socket: '/var/lib/mysql/mysql.sock'  port: 3306  Source distribution
+140129 10:37:43 [Note] /usr/libexec/mysqld: Normal shutdown
+
+140129 10:37:43 [Note] Event Scheduler: Purging the queue. 0 events
+140129 10:37:43  InnoDB: Starting shutdown...
+140129 10:37:45  InnoDB: Shutdown completed; log sequence number 0 563120
+140129 10:37:45 [Note] /usr/libexec/mysqld: Shutdown complete
+
+140129 10:37:45 mysqld_safe mysqld from pid file /var/run/mysqld/mysqld.pid ended
+140130 00:51:12 mysqld_safe Starting mysqld daemon with databases from /var/lib/mysql
+140130  0:51:13  InnoDB: Initializing buffer pool, size = 8.0M
+140130  0:51:13  InnoDB: Completed initialization of buffer pool
+140130  0:51:13  InnoDB: Started; log sequence number 0 563120
+140130  0:51:13 [Note] Event Scheduler: Loaded 0 events
+140130  0:51:13 [Note] /usr/libexec/mysqld: ready for connections.
+Version: '5.1.71'  socket: '/var/lib/mysql/mysql.sock'  port: 3306  Source distribution
+140130 10:16:55 [Note] /usr/libexec/mysqld: Normal shutdown
+
+140130 10:16:55 [Note] Event Scheduler: Purging the queue. 0 events
+140130 10:16:55  InnoDB: Starting shutdown...
+140130 10:17:00  InnoDB: Shutdown completed; log sequence number 0 570700
+140130 10:17:00 [Note] /usr/libexec/mysqld: Shutdown complete
+
+140130 10:17:00 mysqld_safe mysqld from pid file /var/run/mysqld/mysqld.pid ended
+140131 00:59:36 mysqld_safe Starting mysqld daemon with databases from /var/lib/mysql
+140131  0:59:36  InnoDB: Initializing buffer pool, size = 8.0M
+140131  0:59:36  InnoDB: Completed initialization of buffer pool
+140131  0:59:37  InnoDB: Started; log sequence number 0 570700
+140131  0:59:37 [Note] Event Scheduler: Loaded 0 events
+140131  0:59:37 [Note] /usr/libexec/mysqld: ready for connections.
+Version: '5.1.71'  socket: '/var/lib/mysql/mysql.sock'  port: 3306  Source distribution
+```  
+1/31にmysqlのシャットダウンが記録されていない。ということくらいしかわからん。。。
+1/30が正常な動きのはずなので、1/31のログと比べて何が違うのかをとりあえず比較。  
+パッと見ではエラー等は見受けられない。  
+
+ログを比較した限りだと、1/30にあって1/31には無い動作がコレ。  
+```bash
+140130 10:16:55 [Note] /usr/libexec/mysqld: Normal shutdown
+
+140130 10:16:55 [Note] Event Scheduler: Purging the queue. 0 events
+140130 10:16:55  InnoDB: Starting shutdown...
+140130 10:17:00  InnoDB: Shutdown completed; log sequence number 0 570700
+140130 10:17:00 [Note] /usr/libexec/mysqld: Shutdown complete
+
+140130 10:17:00 mysqld_safe mysqld from pid file /var/run/mysqld/mysqld.pid ended
+```  
+
