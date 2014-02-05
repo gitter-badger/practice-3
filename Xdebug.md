@@ -21,6 +21,6 @@ xdebugによるvar_dumpのHTML整形機能によるものらしい。
 ```  
 
 `xdebug.overload_var_dump = 0` をxdebug.ini.erbに追記。  
-** 既にxdebug.iniが存在する場合、上書きはされない **ので予めxdebug.iniを  
+**既にxdebug.iniが存在する場合、上書きはされない**ので予めxdebug.iniを  
 削除なりリネームなりしておく。その上で、`vagrant provision` もしくは  
 `vagrant up --provision` を実行する。
