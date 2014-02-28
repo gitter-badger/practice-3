@@ -17,11 +17,10 @@
 通常はMSゴシック、ラスターフォントの2種類しかないですが、レジストリの編集で追加できるようです。  
 デフォルトフォントじゃ味気ないなー、という人向け。  
 
-■手順
+■手順  
 1. レジストリエディタの起動
-* Windowsキー + Rキー のあと、`regedit` と入力  
-
-2. レジストリ編集
+Windowsキー + Rキー のあと、`regedit` と入力  
+2. レジストリ編集  
 `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Console\TrueTypeFont` を開き、そこに新しい文字列を追加する。  
 
 ＜文字列の追加内容＞  
