@@ -43,7 +43,7 @@ Windowsキー + Rキー のあと、`regedit` と入力
     * master にブランチを merge する
     * origin に push する(pull request は自動クローズされる)
   * リモートブランチの削除
-    * `git push origin:proj/example/xxxxxx`(ブランチ名は適宜書き換えてください。)
+    * `git push origin :proj/example/xxxxxx`(ブランチ名は適宜書き換えてください。)
 4. pivotal のステータスを Accept に変更する。
 (基本、本番サーバーへのアップを以てAcceptを押す。作業は終わっているがアップは確認待ち などの場合はdeliver、またはAcceptで止めておく。)
 
