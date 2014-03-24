@@ -70,3 +70,14 @@ master-fuzoku-db-images の起動に失敗しました。
 * `bash /vagrant/VAGRANT.bash` を再度実行
 
 docker マシンを作り直すときは、少なくともfuzoku-db 関連のコンテナは全部削除してからやらないとエラーになるっぽい。
+
+### ところが首都圏閲覧時だけエラーになる
+```error
+Fatal error: Maximum execution time of 30 seconds exceeded
+```
+開発モードで見たら上記エラーあり。ところがリロードのたびにエラーのソースが変わる。フレームワーク側だったりそうでなかったり。ネットで調べてみたらそれっぽい解決策もあったのでとりあえず試してみる。
+
+1. php.ini の max_execution_time を増やす
+2. 仮想CPUコア数を2に増やす
+
+2を行ったところ一応閲覧できるようになる。それでもめっちゃ重い。なんだろう。。。
