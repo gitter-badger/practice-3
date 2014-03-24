@@ -49,3 +49,24 @@ Windowsキー + Rキー のあと、`regedit` と入力
 
 ### 備考
 アップ先、本番サーバーへのアップ可否、pivotalのステータス、については自分で判断しにくい場合は都度確認したほうがよさげです。
+
+## dockerマシンのデータを更新
+`bash /vagrant/VAGRANT.bash` を実行するだけでOKのはずが以下の問題あり。
+
+* `vagrant up` 後、`vagrant ssh` でログインし、`docker ps` を実行すると、動いているのはいつも
+`etcd` と `master-fuzoku-db-images` の2つだけ。
+* `bash /vagrant/VAGRANT.bash` を実行し、`master-fuzoku-db コンテナセットを起動しますか？[y/N]` で、`y` を選択すると、次のエラーが出る。
+
+```bash
+Error: Conflict, The name master-fuzoku-db-images is already assigned to "コンテナID". You have to delete (or rename) that container to be able to assign master-fuzoku-db-images to a container again.
+master-fuzoku-db-images の起動に失敗しました。
+```
+
+### 以下の手順でとりあえず解決
+* エラーの内容的に既に master-fuzoku-db-images コンテナがあることが問題っぽいので、該当コンテナを削除。
+  * `docker stop "画像コンテナのID"`
+  * `docker rm "画像コンテナのID"`
+* master-fuzoku-db-mysql コンテナも残っているので上記と同じ手順でついでに削除
+* `bash /vagrant/VAGRANT.bash` を再度実行
+
+docker マシンを作り直すときは、少なくともfuzoku-db 関連のコンテナは全部削除してからやらないとエラーになるっぽい。
