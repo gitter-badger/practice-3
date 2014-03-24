@@ -81,3 +81,6 @@ Fatal error: Maximum execution time of 30 seconds exceeded
 2. 仮想CPUコア数を2に増やす
 
 2を行ったところ一応閲覧できるようになる。それでもめっちゃ重い。なんだろう。。。
+
+※追記
+`configure.bash` に `NO_FUZOKU_DB_IMAGES=1` を書いてもみたけど効果はほとんど見られず。画像の取得で重くなっているわけではなさそう。
